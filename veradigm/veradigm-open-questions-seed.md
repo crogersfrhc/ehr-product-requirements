@@ -1,0 +1,28 @@
+# Veradigm — Open Questions Seed
+
+**Internal — FrontRunnerHC.** As of 2026-10-19. Companion to `veradigm-evidence-pack.md`. "Recommended" = analyst proposal awaiting Craig; given only where the evidence supports one.
+
+| # | Question | Owner | Why it matters | Recommended answer |
+|---|---|---|---|---|
+| OQ-1 | Which Veradigm products are in scope: Practice Management, Veradigm EHR (former Professional EHR), or both? Is TouchWorks (now an Altera product) excluded? | Product, Partnerships | Launch is documented only for Veradigm EHR; V1's integration is PM-only; TouchWorks belongs to a different company. Evidence pack §5.2, §5.7, §2.2. | None until OQ-3 is answered. |
+| OQ-2 | Will leadership un-park Veradigm Orion work for a Sidecar (an ADR-PLAT-001 amendment like NextGen's A1)? | Product (Leadership decision) | ADR-PLAT-001:52-54 parks Orion; architect ruled Veradigm "not built or planned" (ODEV-4159). Nothing can be built without it. | Decide after OQ-5 and OQ-6, because vendor access gates feasibility. |
+| OQ-3 | Which practices use Veradigm today (V1 or otherwise), and which is the intended Beta practice? | Ops, Implementation | No customer appears in any evidence; production data was not inspected. Needed to size and validate. | Count clients with `LivePost` = VERADIGM in V1 production and `VeradigmEnabled` in V2 (read-only, counts only). |
+| OQ-4 | Is V1's Veradigm integration live in production today, and for how many clients? | Ops | ODEV-2409 assumes a live legacy adapter needing a cutover; unverified. Affects whether parity work is needed. | Same census as OQ-3. |
+| OQ-5 | Which Veradigm Connect tier does FrontRunner hold or need, at what cost, and what certification is required for Unity write access and SMART launch? | Partnerships, EMR vendor | FHIR is read-only; writes need Unity on an Integrator tier with certification. §5.1, §5.3. | An Integrator tier; Open cannot write. |
+| OQ-6 | Does Craig's developer-portal account include Unity documentation and a sandbox (Unity and SMART launch)? | Partnerships, EMR vendor | The Unity reference and sandbox are not public; every write spec depends on them. | Export the Unity reference, sandbox and tier pages as PDFs for the next session. |
+| OQ-7 | How can a third-party app launch inside Veradigm Practice Management, if at all? | EMR vendor | No PM launch mechanism is documented. Determines whether PM-only practices can use a Sidecar. | — |
+| OQ-8 | Can a Unity write be attributed to the launching user, or only to a service account? | EMR vendor, Development | V1 writes as a service user; sibling PRDs require the launching user as author. §5.2, F-09. | — |
+| OQ-9 | Does Unity support an idempotency key or duplicate detection for policy creates? | EMR vendor | Sibling PRDs require no duplicates on retry; V1 relies on field diffs only. | — |
+| OQ-10 | What are Unity's rate limits and how does it behave on locked records? | EMR vendor | Not documented; V1 ignores the lockout field. | — |
+| OQ-11 | Are V1's documented workarounds (two-pass priority demote; contact fields blanked on save) still needed on current Veradigm versions? | EMR vendor, Orion team | They change how coverage order and contacts must be written. F-03 area, §5.4. | Keep them as test cases until Veradigm confirms. |
+| OQ-12 | Which sign-in model is right for Veradigm writes: Unity token with username/password and Ubiquity IDs (V1, test matrix) or OAuth client credentials (ADR-ORN-018)? | Development, Orion team | Platform docs and code disagree (F-03). | Unity token flow for writes, per V1 code and vendor docs; OAuth applies to FHIR reads only. |
+| OQ-13 | Is a BAA with Veradigm signed and on file? | Compliance | The register cites a PDF not in the repo; verification story canceled (F-05). | Confirm before any PHI flow. |
+| OQ-14 | Who remediates V1 credential exposure and PHI logging (F-06, F-07, F-08)? | Compliance (Security) | Committed credentials, plaintext passwords and PHI in logs. Platform topic, not Orion. | Route to Security now, independent of the Sidecar decision. |
+| OQ-15 | What happens to ODEV-2409 (Veradigm parity epic) and ODEV-2579 (In Progress guarantor ADR) given the "not planned" ruling? | Product, Development | Planning contradiction (F-15). | Re-scope after OQ-2. |
+| OQ-16 | Should V2's Veradigm connection settings screen stay visible while it saves nothing? | Product, Development | Staff may believe setup succeeded (F-01); it is in production. | — |
+| OQ-17 | Is `InsSpecialistPlanCode_Veradigm` meant to be postable to Veradigm? | Development | Matrix marks it unsupported while V1 posts it (F-02). | Yes, if V1 behavior is the reference. |
+| OQ-18 | Which Veradigm EHR versions do target practices run (SSO launch needs 24.5+)? | Implementation, EMR vendor | Older versions may not support SSO launch. §5.2. | — |
+| OQ-19 | What does a practice that cannot launch the Sidecar use instead? | Product | PM launch and older EHR versions may be unsupported. | The full web app, as athena V1 does for non-athena clients. |
+| OQ-20 | Which athena/NextGen Sidecar capabilities come over to Veradigm in v1 (GFE, claim validation, readiness, credit)? | Product | Several are UNKNOWN in the cross-EMR comparison. §6. | Decide per capability on value, as the NextGen Sidecar PRD does. |
+| OQ-21 | How will the vendor-neutral embed layer admit a third vendor (its vendor type allows only athena and NextGen today)? | Development | Reuse depends on it. §2.4. | — |
+| OQ-22 | Is redetermination expected in a Veradigm Sidecar, and what would it show? | Product | No Veradigm or embed trace found. | — |
